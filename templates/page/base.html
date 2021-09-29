@@ -1,0 +1,66 @@
+{% load static sekizai_tags i18n %}
+
+<!DOCTYPE html>
+
+<html lang="{{ LANGUAGE_CODE }}">
+
+{% url 'about_app:about' as index %}
+
+<head>
+    <title>
+        {% block title %}{% endblock title %}
+    </title>
+
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    {% block meta %}{% endblock meta %}
+
+    {% block favicon %}
+    <!-- Favicons -->
+    <link href="{% static 'page/assets/img/favicon.png' %}" rel="icon" alt="favicon" />
+    <link href="{% static 'page/assets/img/apple-touch-icon180x180.png' %}" rel="apple-touch-icon"
+        alt="apple touch icon" />
+    {% endblock favicon %}
+
+    {% block head %}{% endblock head %}
+
+
+    {% render_block "css" %}
+
+</head>
+
+{% url 'users_app:user-register' as register %}
+{% url 'users_app:user-login' as login %}
+{% url 'users_app:user-forgot-password' as forgotPassword %}
+{% url 'users_app:user-update-password' as updatePassword %}
+
+
+{% url 'users_app:user-verification' pk=user_id as verificationCode %}
+
+<body class="hold-transition {% if request.path == register %}register-page{% else %}login-page{% endif %}">
+
+    {% block header %}{% endblock header %}
+
+    {% block content %}{% endblock content %}
+
+    {% block credits %}
+    <div class="credits">
+        Creado por <a href="https://sebasmd.com">Sebastián Morales</a>
+    </div>
+    {% endblock credits %}
+
+    {% block body %}
+    <div id="preloader"></div>
+    <a id="bbt"></a>
+    {% endblock body %}
+
+    {% if request.get_full_path == index %}
+    {% include "page/includes/js.html" %}
+    {% endif %}
+
+    {% render_block "js" %}
+
+</body>
+
+</html>

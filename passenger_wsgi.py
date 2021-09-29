@@ -1,0 +1,1 @@
+from app_core_cnt.wsgi import application

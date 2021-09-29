@@ -1,0 +1,79 @@
+{% extends 'page/base.html' %}
+
+{% load static sekizai_tags i18n %}
+
+
+
+{% block title %}{% trans 'Iniciar Sesión' %}{% endblock title %}
+
+{% block head %}
+<!-- Font Aweasome -->
+<link rel="stylesheet" type="text/css" href="{% static 'fontawesome_free/css/all.min.css' %}" />
+{% include "general/includes/css.html" %}
+{% endblock head %}
+
+
+{% block meta %}
+<meta name="title" content="" />
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="" />
+
+<link rel="canonical" href="" />
+
+<meta property="og.type" content="website" />
+<meta property="og:url" content="" />
+<meta property="og:title" content="" />
+<meta property="og:description" content="" />
+{% endblock meta %}
+
+
+{% block content %}
+<div class="login-box">
+  <div class="card card-outline card-primary">
+    <div class="card-header text-center">
+      <a href="{% url 'about_app:about' %}" class="h1">{{ ctx_app_name }}</a>
+    </div>
+    <div class="card-body">
+      <p class="login-box-msg">{% trans 'Por favor ingresa el código de verificación que te llegó al correo' %}</p>
+
+      <form method="post">
+        {% csrf_token %}
+        <div class="row form-group">
+
+          {% if form.errors %}
+          <div class="col-12">
+            {{ form.non_field_errors }}
+          </div>
+          {% endif %}
+
+          <div class="input-group col-12 mb-3">
+            {{ form.verification_code }}
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-user-check"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary btn-block">{% trans "Validar" %}</button>
+          </div>
+
+        </div>
+      </form>
+
+      <p class="mt-3 mb-1">
+        <a href="{% url 'users_app:user-login' %}">{% trans "Iniciar Sesión" %}</a>
+      </p>
+
+      <p class="mb-0">
+        <a href="{% url 'users_app:user-register' %}" class="text-center">{% trans 'Todavía no me he registrado' %}</a>
+      </p>
+    </div>
+  </div>
+</div>
+{% include "general/includes/js.html" %}
+
+{% endblock content %}

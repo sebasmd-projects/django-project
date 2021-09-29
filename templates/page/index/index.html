@@ -1,0 +1,737 @@
+{% extends 'page/base.html' %}
+
+
+
+{% load static sekizai_tags i18n %}
+
+
+{% block meta %}
+<meta property="og.type" content="website" />
+
+<meta name="title" content="Sebastian Morales | Desarrollador" />
+<meta property="og:title" content="Sebastian Morales | Desarrollador" />
+
+<meta name="description"
+    content="Presentación, portafolio y servicios dando a conocer mis conocimientos en desarrollo BackEnd, FrontEnd y QA" />
+<meta property="og:description"
+    content="Presentación, portafolio y servicios dando a conocer mis conocimientos en desarrollo BackEnd, FrontEnd y QA" />
+<meta name="keywords"
+    content="sebastian, morales, portafolio, servicios, desarrollador, backend, frontend, 
+                qa, python, java, javascript, js, angular, angularjs, react, reactjs, 
+                automatización, web, seo, moodle, wordpress, plugins, scripts, css, marketing, 
+                sem, django, django-cms, django-app, css3, html5, mongodb, slq, sqlserver, server, 
+                cpanel, host, postgresql,freelance, junior, senior, master, bases de datos, datos, bases, programación, " />
+<link rel="canonical" href="https://sebasmd.com" />
+<meta property="og:url" content="https://sebasmd.com" />
+<meta name="robots" content="index">
+<meta name="robots" content="follow">
+<meta name="authos" content="Sebastian Morales">
+<meta name="copyright" content="Sebastian Morales">
+{% endblock meta %}
+
+{% block head %}
+{% include "page/includes/css.html" %}
+{% endblock head %}
+
+
+{% block header %}
+<!-- ======= Header ======= -->
+<header data-new-title="Inicio" id="header" class="header-tops dynamic-title">
+    <div class="container">
+
+        {% for ctx in ctx_about %}
+        <h1><a href="{% url 'about_app:about' %}">{{ ctx.full_name }}</a></h1>
+        <h2>{{ t_key }} <span class="typed" data-typed-items="{{ typing_key }}"></span>
+        </h2>
+        {% endfor %}
+
+        {% include "page/includes/header.html" %}
+
+        {% include "page/includes/redes_sociales.html" %}
+
+    </div>
+</header>
+<!-- End Header -->
+{% endblock header %}
+
+
+{% block content %}
+<!-- ======= About Section ======= -->
+<section id="about" class="about">
+
+    {% for ctx in ctx_about %}
+
+    <!-- ======= About Me ======= -->
+    <div class="about-me container">
+        <div class="section-title">
+            <h2>{% trans 'Conóceme' %}</h2>
+            <p>{% trans 'Conoce más de mi' %}</p>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4" data-aos="fade-right">
+                {% if ctx.avatar %}
+                <img src="{{ ctx.avatar.url }}" class="img-fluid" alt="{{ ctx.full_name }}" />
+                {% else %}
+                <img src="{% static 'page/assets/img/me.png' %}" class="img-fluid" alt="{{ ctx.full_name }}" />
+                {% endif %}
+            </div>
+
+            <div class="col-lg-8 pt-4 pt-lg-0 content" data-aos="fade-left">
+                <h3>{{ ctx.full_name }}</h3>
+                {{ ctx.description_1 |safe }}
+                <div class="row">
+                    <div class="col-lg-6">
+                        <ul>
+                            <li>
+                                <i class="icofont-rounded-right"></i>
+                                <strong>{% trans 'Nací el' %}:</strong> {{ ctx.birthday }}
+                            </li>
+                            <li>
+                                <i class="icofont-rounded-right"></i>
+                                <strong>{% trans 'Página Web' %}:</strong> <a target="_blank"
+                                    href="{{ ctx.web_page }}">{{ ctx.web_page }}</a>
+                            </li>
+                            <li>
+                                <i class="icofont-rounded-right"></i>
+                                <strong>{% trans 'Celular' %}:</strong> {{ ctx.phone }}
+                            </li>
+                            <li>
+                                <i class="icofont-rounded-right"></i>
+                                <strong>{% trans 'Residencia' %}</strong> {{ ctx.city }}, {{ ctx.country }}
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <ul>
+                            <li>
+                                <i class="icofont-rounded-right"></i> <strong>{% trans 'Edad' %}:</strong> {{ ctx.age }}
+                            </li>
+                            <li>
+                                <i class="icofont-rounded-right"></i>
+                                <strong>{% trans 'Grado' %}:</strong> {{ ctx.grade }}
+                            </li>
+                            <li>
+                                <i class="icofont-rounded-right"></i>
+                                <strong>{% trans 'Correo' %}:</strong> {{ ctx.email }}
+                            </li>
+                            <li>
+                                <i class="icofont-rounded-right"></i>
+                                <strong>{% trans 'Freelance' %}:</strong> {{ ctx.freelance }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <p>
+                    {{ ctx.description_2 |safe}}
+                </p>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-lg-6 greenColor">
+                    {{ ctx.strength_1 |safe }}
+                </div>
+
+                <div class="col-lg-6 greenColor">
+                    {{ ctx.strength_2 |safe }}
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- End About Me -->
+
+    <!-- ======= Counts ======= -->
+    <div class="counts container">
+        <div class="row justify-content-center">
+            {% for c in ctx.counters.all %}
+            <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
+                <div class="count-box">
+                    <i class="{{ c.counter_icon }}"></i>
+                    <span data-toggle="counter-up">{{ c.counter_amount }}</span>
+                    <p>{{ c.name }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- End Counts -->
+
+    <!-- ======= Skills  ======= -->
+    <div class="skills container">
+        <div class="section-title">
+            <h2>{% trans 'Habilidades' %}</h2>
+        </div>
+
+        <div class="row skills-content justify-content-center" data-masonry='{"percentPosition": true }'>
+            {% for s in ctx.skills.all %}
+            <div class="col-lg-6">
+                <div class="progress">
+                    <span class="skill">{{ s.name }} <i class="val">{{ s.skills_percentage }}%</i></span>
+                    <div class="progress-bar-wrap">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ s.skills_percentage }}"
+                            aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- End Skills -->
+
+    <!-- ======= Interests ======= -->
+    <div class="interests container">
+        <div class="section-title">
+            <h2>{% trans 'Intereses' %}</h2>
+        </div>
+
+        <div class="row justify-content-center">
+            {% for i in ctx.interests.all %}
+            <div class="col-lg-3 col-md-4 mt-4">
+                <div class="icon-box">
+                    <i class="{{ i.interest_icon }}" style="color: {{ i.interest_icon_color }} "></i> <!-- @ignore -->
+                    <h3> {{ i.name }} </h3>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- End Interests -->
+
+    {% if ctx.testimonials.exists != False %}
+    <!-- ======= Testimonials ======= -->
+    <div class="testimonials container">
+        <div class="section-title">
+            <h2>{% trans 'Testimonios' %}</h2>
+        </div>
+        <div class="owl-carousel testimonials-carousel">
+            {% for t in ctx.testimonials.all %}
+            <div class="testimonial-item">
+                {{ t.testimonial_text |safe }}
+                <h3>{{ t.testimonial_name }}</h3>
+                <h4>{{ t.testimonial_work }}</h4>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- End Testimonials  -->
+    {% endif %}
+
+    {% endfor %}
+
+    {% include "page/includes/footer.html" %}
+
+</section>
+<!-- End About Section -->
+
+
+<!-- ======= Resume Section ======= -->
+<section id="resume" class="resume">
+    <div class="container">
+        <div class="section-title">
+            <h2>Recorrido</h2>
+            <p>Hoja de Vida</p>
+        </div>
+
+        <div class="row" data-masonry='{"percentPosition": true }'>
+            <div class="col-lg-6">
+                <h3 class="resume-title">Resumen</h3>
+                <div class="resume-item">
+                    <h4>Juan Sebastián Morales</h4>
+                    <p><em>
+                            Desarrollador Junior, con expericencia laboral en el desarrollo de Aplicaciones Web.
+
+                            Son pilares de mi formación los valores como la honestidad, el respeto, la
+                            perseverancia, la
+                            paciencia y el perfeccionismo. Tengo la capacidad para comunicarme, trabajar en equipo y
+                            bajo presión. </em></p>
+                    <p>
+                    <ul>
+                        <li>Medellín, Antioquia, Colombia</li>
+                        <li>+57 300 295 40 40</li>
+                        <li>sebastian@sebasmd.com</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <h3 class="resume-title">Experiencia Profesional</h3>
+                <div class="resume-item">
+                    <h4>Fundación Agua Viva</h4>
+                    <h5>2021 - Presente</h5>
+                    <p><em>Desarrollador Junior PHP</em></p>
+                    <p>
+                    <ul>
+                        <li>Creación y Soporte plataforma Moodle para educación E-Learning</li>
+                        <li>Edición y mantenimiento de la página comercial</li>
+                        <li>Soporte técnico</li>
+                        <li>Atención al usuario</li>
+                    </ul>
+                    </p>
+                </div>
+                <div class="resume-item">
+                    <h4>Esstrategia S.A.S.</h4>
+                    <h5>2020 - 2021</h5>
+                    <p><em>Desarrollador Junior</em></p>
+                    <p>
+                    <ul>
+                        <li>Dar soporte a los diferentes servicios prestados por el grupo "Esstrategia"</li>
+                        <li>Crear un Ecommerce + plugin de Wompi para PrestaShop</li>
+                        <li>Creación y Soporte plataforma Moodle para educación E-Learning</li>
+                        <li>Soporte técnico</li>
+                        <li>Atención al usuario</li>
+                    </ul>
+                    </p>
+                </div>
+                <div class="resume-item">
+                    <h4>AM Publicidad</h4>
+                    <h5>2017 - 2020</h5>
+                    <p><em>Marketing y Mercadeo, análisis de sitios web</em></p>
+                    <p>
+                    <ul>
+                        <li>Dar recomendaciones para mejorar el SEO</li>
+                        <li>Realizar valoraciones para la creación de sitios web</li>
+                        <li>Atención al usuario</li>
+                    </ul>
+                    </p>
+                </div>
+                <div class="resume-item">
+                    <h4>Clases Particulares</h4>
+                    <h5>2015 - 2017</h5>
+                    <p><em>Profesor Particular</em></p>
+                    <p>
+                    <ul>
+                        <li>Fundamentos de programación (Para técnicos, tecnólogos y
+                            estudiantes de primer y segundo semestre, principalmente en
+                            Pseint y Java)
+                        </li>
+                        <li>Matemáticas</li>
+                        <li>Excel básico</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <h3 class="resume-title">Educación</h3>
+                <div class="resume-item">
+                    <h4>Universidad | Luis Amigo</h4>
+                    <h5>2020 - Presente</h5>
+                    <p><em>Ing. de Sistemas</em></p>
+                </div>
+                <div class="resume-item">
+                    <h4>Universidad | Eafit</h4>
+                    <h5>2018 - 2020</h5>
+                    <p><em>Ing. de Sistemas</em></p>
+                </div>
+                <div class="resume-item">
+                    <h4>Colegio | Corazonista Medellín</h4>
+                    <h5>2005 - 2017</h5>
+                    <p><em>Bachiller</em></p>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <h3 class="resume-title">Cursos</h3>
+                <div class="resume-item">
+                    <p><em>Udemy | Python</em></p>
+                    <ul>
+                        <li>Universidad Python 2021 - POO, Django, Flask y Postgresql</li>
+                        <li>Curso Completo Machine Learning con Python 2021</li>
+                        <li>Procesamiento del Lenguaje Natural Moderno en Python</li>
+                        <li>Aprende BERT, el algoritmo de NLP más avanzado de Google</li>
+                        <li>Desarrollo Web Backend en Python con Djangro Framework</li>
+                        <li>Curso Django y Django restframework de básico a profesional </li>
+                        <li>Master en Python 3.x. Aprende de 0 a EXPERTO con Práctica</li>
+                        <li>Curso Maestro de Python 3: Aprende Desde Cero</li>
+                        <li>Sistema de Compra y Facturación con Python usando Django</li>
+                        <li>Curso completo de Python 3 de la A a la Z - 2021 +50 horas!</li>
+                    </ul>
+                </div>
+                <div class="resume-item">
+                    <p><em>Udemy | Java</em></p>
+                    <ul>
+                        <li>Universidad Java 2021 - de Cero a Experto! + 105 hrs</li>
+                        <li>Universidad Spring 2021 - Spring Framework y Spring Boot! </li>
+                    </ul>
+                </div>
+                <div class="resume-item">
+                    <p><em>Udemy | QA</em></p>
+                    <ul>
+                        <li>QA Automation Testing Mobile con TestProject Desde Cero 2021</li>
+                        <li>Curso de QA Automation con Serenity - De novato a experto!</li>
+                    </ul>
+                </div>
+                <div class="resume-item">
+                    <p><em>Udemy | FrontEnd</em></p>
+                    <ul>
+                        <li>Universidad Angular 2021 - De Cero a Experto en Angular!</li>
+                        <li>React Native: Aplicaciones nativas para IOS y Android</li>
+                        <li>React: De cero a experto (Hooks y MERN)</li>
+                        <li>React JS Desde Cero! Hooks, Redux, Context, Firebase y más!</li>
+                    </ul>
+                </div>
+                <div class="resume-item">
+                    <p><em>Udemy | Versionamiento</em></p>
+                    <ul>
+                        <li>[2021] Git y GitHub 100% Práctico</li>
+                        <li>GIT + GitHub: Todo un sistema de control de versiones de cero</li>
+                    </ul>
+                </div>
+                <div class="resume-item">
+                    <p><em>Udemy | JavaScript CCS3 HTML5</em></p>
+                    <ul>
+                        <li>Universidad JavaScript 2021 - de Cero a Master en JavaScript</li>
+                        <li>Universidad Desarrollo Web 2021 - FrontEnd Web Developer</li>
+                        <li>Bootstrap 5 with 3 projects in Hindi || Urdu</li>
+                        <li>CURSO CSS3 [Aprende y DOMINA CSS# desde cero a a avanzado]</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include "page/includes/footer.html" %}
+
+
+</section>
+<!-- End Resume Section -->
+
+
+<!-- ======= Services Section ======= -->
+<section id="services" class="services">
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Services</h2>
+            <p>My Services</p>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                <div class="icon-box">
+                    <div class="icon"><i class="bx bxl-dribbble"></i></div>
+                    <h4><a href="">Lorem Ipsum</a></h4>
+                    <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+                <div class="icon-box">
+                    <div class="icon"><i class="bx bx-file"></i></div>
+                    <h4><a href="">Sed ut perspiciatis</a></h4>
+                    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+                <div class="icon-box">
+                    <div class="icon"><i class="bx bx-tachometer"></i></div>
+                    <h4><a href="">Magni Dolores</a></h4>
+                    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+                <div class="icon-box">
+                    <div class="icon"><i class="bx bx-world"></i></div>
+                    <h4><a href="">Nemo Enim</a></h4>
+                    <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+                <div class="icon-box">
+                    <div class="icon"><i class="bx bx-slideshow"></i></div>
+                    <h4><a href="">Dele cardo</a></h4>
+                    <p>Quis consequatur saepe eligendi voluptatem consequatur dolor consequuntur</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+                <div class="icon-box">
+                    <div class="icon"><i class="bx bx-arch"></i></div>
+                    <h4><a href="">Divera don</a></h4>
+                    <p>Modi nostrum vel laborum. Porro fugit error sit minus sapiente sit aspernatur</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    {% include "page/includes/footer.html" %}
+
+</section>
+<!-- End Services Section -->
+
+
+<!-- ======= Portfolio Section ======= -->
+<section id="portfolio" class="portfolio">
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Portfolio</h2>
+            <p>My Works</p>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 d-flex justify-content-center">
+                <ul id="portfolio-flters">
+                    <li data-filter="*" class="filter-active">All</li>
+                    <li data-filter=".filter-app">App</li>
+                    <li data-filter=".filter-card">Card</li>
+                    <li data-filter=".filter-web">Web</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row portfolio-container">
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                <div class="portfolio-wrap">
+                    <img src="{% static 'page/assets/img/portfolio/portfolio-1.jpg' %}" class="img-fluid" alt="">
+                    <div class="portfolio-info">
+                        <h4>App 1</h4>
+                        <p>App</p>
+                        <div class="portfolio-links">
+                            <a href="{% static 'page/assets/img/portfolio/portfolio-1.jpg' %}"
+                                data-gall="portfolioGallery" class="venobox" title="App 1"><i class="fas fa-search-plus"></i></a>
+                            <a href="http://127.0.0.1:5500/plantillas/MyResume/portfolio-details.html" data-gall="portfolioDetailsGallery" data-vbtype="iframe"
+                                class="venobox" title="Portfolio Details"><i class="fas fa-link"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+                <div class="portfolio-wrap">
+                    <img src="{% static 'page/assets/img/portfolio/portfolio-2.jpg' %}" class="img-fluid" alt="">
+                    <div class="portfolio-info">
+                        <h4>Web 3</h4>
+                        <p>Web</p>
+                        <div class="portfolio-links">
+                            <a href="{% static 'page/assets/img/portfolio/portfolio-2.jpg' %}"
+                                data-gall="portfolioGallery" class="venobox" title="Web 3"><i
+                                    class="bx bx-plus"></i></a>
+                            <a href="portfolio-details.html" data-gall="portfolioDetailsGallery" data-vbtype="iframe"
+                                class="venobox" title="Portfolio Details"><i class="bx bx-link"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                <div class="portfolio-wrap">
+                    <img src="{% static 'page/assets/img/portfolio/portfolio-3.jpg' %}" class="img-fluid" alt="">
+                    <div class="portfolio-info">
+                        <h4>App 2</h4>
+                        <p>App</p>
+                        <div class="portfolio-links">
+                            <a href="{% static 'page/assets/img/portfolio/portfolio-3.jpg' %}"
+                                data-gall="portfolioGallery" class="venobox" title="App 2"><i
+                                    class="bx bx-plus"></i></a>
+                            <a href="portfolio-details.html" data-gall="portfolioDetailsGallery" data-vbtype="iframe"
+                                class="venobox" title="Portfolio Details"><i class="bx bx-link"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-card">
+                <div class="portfolio-wrap">
+                    <img src="{% static 'page/assets/img/portfolio/portfolio-4.jpg' %}" class="img-fluid" alt="">
+                    <div class="portfolio-info">
+                        <h4>Card 2</h4>
+                        <p>Card</p>
+                        <div class="portfolio-links">
+                            <a href="{% static 'page/assets/img/portfolio/portfolio-4.jpg' %}"
+                                data-gall="portfolioGallery" class="venobox" title="Card 2"><i
+                                    class="bx bx-plus"></i></a>
+                            <a href="portfolio-details.html" data-gall="portfolioDetailsGallery" data-vbtype="iframe"
+                                class="venobox" title="Portfolio Details"><i class="bx bx-link"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+                <div class="portfolio-wrap">
+                    <img src="{% static 'page/assets/img/portfolio/portfolio-5.jpg' %}" class="img-fluid" alt="">
+                    <div class="portfolio-info">
+                        <h4>Web 2</h4>
+                        <p>Web</p>
+                        <div class="portfolio-links">
+                            <a href="{% static 'page/assets/img/portfolio/portfolio-5.jpg' %}"
+                                data-gall="portfolioGallery" class="venobox" title="Web 2"><i
+                                    class="bx bx-plus"></i></a>
+                            <a href="portfolio-details.html" data-gall="portfolioDetailsGallery" data-vbtype="iframe"
+                                class="venobox" title="Portfolio Details"><i class="bx bx-link"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                <div class="portfolio-wrap">
+                    <img src="{% static 'page/assets/img/portfolio/portfolio-6.jpg' %}" class="img-fluid" alt="">
+                    <div class="portfolio-info">
+                        <h4>App 3</h4>
+                        <p>App</p>
+                        <div class="portfolio-links">
+                            <a href="{% static 'page/assets/img/portfolio/portfolio-6.jpg' %}"
+                                data-gall="portfolioGallery" class="venobox" title="App 3"><i
+                                    class="bx bx-plus"></i></a>
+                            <a href="portfolio-details.html" data-gall="portfolioDetailsGallery" data-vbtype="iframe"
+                                class="venobox" title="Portfolio Details"><i class="bx bx-link"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-card">
+                <div class="portfolio-wrap">
+                    <img src="{% static 'page/assets/img/portfolio/portfolio-7.jpg' %}" class="img-fluid" alt="">
+                    <div class="portfolio-info">
+                        <h4>Card 1</h4>
+                        <p>Card</p>
+                        <div class="portfolio-links">
+                            <a href="{% static 'page/assets/img/portfolio/portfolio-7.jpg' %}"
+                                data-gall="portfolioGallery" class="venobox" title="Card 1"><i
+                                    class="bx bx-plus"></i></a>
+                            <a href="portfolio-details.html" data-gall="portfolioDetailsGallery" data-vbtype="iframe"
+                                class="venobox" title="Portfolio Details"><i class="bx bx-link"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-card">
+                <div class="portfolio-wrap">
+                    <img src="{% static 'page/assets/img/portfolio/portfolio-8.jpg' %}" class="img-fluid" alt="">
+                    <div class="portfolio-info">
+                        <h4>Card 3</h4>
+                        <p>Card</p>
+                        <div class="portfolio-links">
+                            <a href="{% static 'page/assets/img/portfolio/portfolio-8.jpg' %}"
+                                data-gall="portfolioGallery" class="venobox" title="Card 3"><i
+                                    class="bx bx-plus"></i></a>
+                            <a href="portfolio-details.html" data-gall="portfolioDetailsGallery" data-vbtype="iframe"
+                                class="venobox" title="Portfolio Details"><i class="bx bx-link"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+                <div class="portfolio-wrap">
+                    <img src="{% static 'page/assets/img/portfolio/portfolio-9.jpg' %}" class="img-fluid" alt="">
+                    <div class="portfolio-info">
+                        <h4>Web 1</h4>
+                        <p>Web</p>
+                        <div class="portfolio-links">
+                            <a href="{% static 'page/assets/img/portfolio/portfolio-9.jpg' %}"
+                                data-gall="portfolioGallery" class="venobox" title="Web 3"><i
+                                    class="bx bx-plus"></i></a>
+                            <a href="portfolio-details.html" data-gall="portfolioDetailsGallery" data-vbtype="iframe"
+                                class="venobox" title="Portfolio Details"><i class="bx bx-link"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    {% include "page/includes/footer.html" %}
+
+</section>
+<!-- End Portfolio Section -->
+
+
+<!-- ======= Contact Section ======= -->
+<section id="contact" class="contact">
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Contact</h2>
+            <p>Contact Me</p>
+        </div>
+
+        <div class="row mt-2">
+
+            <div class="col-md-6 d-flex align-items-stretch">
+                <div class="info-box">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>My Address</h3>
+                    <p>A108 Adam Street, New York, NY 535022</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 mt-4 mt-md-0 d-flex align-items-stretch">
+                <div class="info-box">
+                    <i class="far fa-thumbs-up"></i>
+                    <h3>Social Profiles</h3>
+                    {% include "page/includes/redes_sociales.html" %}
+                </div>
+            </div>
+
+            <div class="col-md-6 mt-4 d-flex align-items-stretch">
+                <div class="info-box">
+                    <i class="fas fa-envelope"></i>
+                    <h3>Email Me</h3>
+                    <p>contact@example.com</p>
+                </div>
+            </div>
+            <div class="col-md-6 mt-4 d-flex align-items-stretch">
+                <div class="info-box">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Call Me</h3>
+                    <p>+1 5589 55488 55</p>
+                </div>
+            </div>
+        </div>
+
+        <form action="forms/contact.php" method="post" role="form" class="php-email-form mt-4">
+            <div class="form-row">
+                <div class="col-md-6 form-group">
+                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name"
+                        data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                    <div class="validate"></div>
+                </div>
+                <div class="col-md-6 form-group">
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email"
+                        data-rule="email" data-msg="Please enter a valid email" />
+                    <div class="validate"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject"
+                    data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                <div class="validate"></div>
+            </div>
+            <div class="form-group">
+                <textarea class="form-control" name="message" rows="5" data-rule="required"
+                    data-msg="Please write something for us" placeholder="Message"></textarea>
+                <div class="validate"></div>
+            </div>
+            <div class="mb-3">
+                <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Your message has been sent. Thank you!</div>
+            </div>
+            <div class="text-center"><button type="submit">Send Message</button></div>
+        </form>
+
+    </div>
+
+    {% include "page/includes/footer.html" %}
+
+</section>
+<!-- End Contact Section -->
+
+{% endblock content %}

@@ -1,0 +1,74 @@
+{% load static sekizai_tags i18n %}
+
+
+
+<!DOCTYPE html>
+
+
+<html lang="{{ LANGUAGE_CODE }}">
+
+<head>
+
+    <title>
+        {% block title %}{% endblock title %}
+    </title>
+
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    {% block meta %}{% endblock meta %}
+
+    {% block favicon %}
+    <!-- Favicons -->
+    <link href="{% static 'page/assets/img/favicon.png' %}" rel="icon" alt="favicon" />
+    <link href="{% static 'page/assets/img/apple-touch-icon180x180.png' %}" rel="apple-touch-icon"
+        alt="apple touch icon" />
+    {% endblock favicon %}
+
+    {% block head %}{% endblock head %}
+
+    {% include "nlp/pages/includes/css.html" %}
+
+    {% render_block "css" %}
+
+</head>
+
+<body
+    class="dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed control-sidebar-slide-open sidebar-collapse sidebar-mini-md sidebar-mini-xs"
+    style="height: auto;">
+
+    <div class="wrapper">
+        {% block preloader %}
+        {% include "nlp/pages/includes/preloader.html" %}
+        {% endblock preloader %}
+
+        {% block header %}{% endblock header %}
+
+        {% block navbar %}
+        {% include "nlp/pages/includes/navbar.html" %}
+        {% endblock navbar %}
+
+        {% block sidebar %}
+        {% include "nlp/pages/includes/sidebar.html" %}
+        {% endblock sidebar %}
+
+        {% block content %}{% endblock content %}
+
+        {% block body %}{% endblock body %}
+
+
+
+        {% block footer %}
+        {% include "nlp/pages/includes/footer.html" %}
+        {% endblock footer %}
+
+    </div>
+
+    {% include "nlp/pages/includes/js.html" %}
+
+    {% render_block "js" %}
+
+
+</body>
+
+</html>

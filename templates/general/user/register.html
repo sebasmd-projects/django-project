@@ -1,0 +1,190 @@
+{% extends 'page/base.html' %}
+
+{% load static sekizai_tags i18n %}
+
+
+
+{% block title %}{% trans 'Registro' %}{% endblock title %}
+
+
+{% block head %}
+<!-- Font Aweasome -->
+<link rel="stylesheet" type="text/css" href="{% static 'fontawesome_free/css/all.min.css' %}" />
+{% include "general/includes/css.html" %}
+{% endblock head %}
+
+
+{% block meta %}
+<meta name="title" content="" />
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="" />
+
+<link rel="canonical" href="" />
+
+<meta property="og.type" content="website" />
+<meta property="og:url" content="" />
+<meta property="og:title" content="" />
+<meta property="og:description" content="" />
+{% endblock meta %}
+
+
+{% block content %}
+<div class="register-box mt-5 mb-2">
+  
+  <div class="register-logo">
+    <a href="{% url 'about_app:about' %}">{{ ctx_app_name }}</a>
+  </div>
+
+  <div class="card">
+    <div class="card-body register-card-body">
+      <p class="login-box-msg">{% trans 'Crear un nuevo usuario' %}</p>
+
+      <form method="post">
+        {% csrf_token %}
+        <div class="row form-group">
+
+          {% if form.errors %}
+          <div class="col-12">
+            {{ form.username.errors }}
+            {{ form.email.errors }}
+            {{ form.phone.errors }}
+            {{ form.names.errors }}
+            {{ form.surname.errors }}
+            {{ form.birthday.errors }}
+            {{ form.newsletter.errors }}
+            {{ form.privacy.errors }}
+            {{ form.password.errors }}
+            {{ form.repeat_password.errors }}
+          </div>
+          {% endif %}
+
+          <!-- Username -->
+          <div class="input-group mb-3 col-6">
+            {{ form.username }}
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-user"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="input-group mb-3 col-6">
+            {{ form.email }}
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Names -->
+          <div class="input-group mb-3 col-6">
+            {{ form.names }}
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-signature"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Surname -->
+          <div class="input-group mb-3 col-6">
+            {{ form.surname }}
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-signature"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phone -->
+          <div class="input-group mb-3 col-6">
+            {{ form.phone }}
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-mobile-alt"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Birthday -->
+          <div class="input-group mb-3 col-6">
+            {{ form.birthday }}
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-birthday-cake"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="input-group mb-3 col-6">
+            {{ form.password }}
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Repeat Password -->
+          <div class="input-group mb-3 col-6">
+            {{ form.repeat_password }}
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Newsletter -->
+          <div class="col-12">
+            <div class="icheck-primary">
+              {{ form.newsletter }}
+              <label for="register_id_newsletter" class="form-check-label">
+                {% trans "Suscribirme para recibir promociones e información" %}
+              </label>
+            </div>
+          </div>
+
+          <!-- Terms & Conditions-->
+          <div class="col-12">
+            <div class="icheck-primary">
+              {{ form.privacy }}
+              <label for="register_id_privacy" class="form-check-label">
+                {% trans "Acepto los" %} <a href="#" target="_blank">{% trans 'términos y condiciones' %}</a>
+              </label>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="col-12 mt-3">
+            <button type="submit" class="btn btn-primary btn-block">{% trans 'Registrarme' %}</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="social-auth-links text-center">
+        <p>{% trans '- O -' %}</p>
+        <a href="#" class="btn btn-block btn-primary">
+          <i class="fab fa-facebook mr-2"></i>
+          {% trans 'Facebook' %}
+        </a>
+        <a href="#" class="btn btn-block btn-danger">
+          <i class="fab fa-google-plus mr-2"></i>
+          {% trans 'Google +' %}
+        </a>
+      </div>
+
+      
+      <a href="{% url 'users_app:user-login' %}" class="text-center">{% trans "Iniciar Sesión" %}</a>
+    </div>
+  </div>
+</div>
+
+{% include "general/includes/js.html" %}
+
+{% endblock content %}
